@@ -1,4 +1,5 @@
 import React, {useState, useCallback} from 'react';
+import NewInventory from './newInventory';
 import {useFetcher} from '../../../hooks';
 import Modal from '../../../components/Modal';
 import * as S from './styled';
@@ -6,6 +7,7 @@ import * as S from './styled';
 const TableRow = ({id, name, model, color, vin, year, reload}) => {
   
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const {request, isLoading, error} = useFetcher('DELETE');
   
   const handleDeleteVehicle = useCallback( async () => {
@@ -16,20 +18,37 @@ const TableRow = ({id, name, model, color, vin, year, reload}) => {
   const openDelModal = () => {
     setOpenDeleteModal(true);
   }
+  const openEdModal = () => {
+    setOpenEditModal(true);
+  }
   const closeDeleteModal = () => {
     setOpenDeleteModal(false);
   }
+  const closeModal = () => {
+    setOpenEditModal(false);
+    reload();
+  };
   return (
       <S.TableRow>
           {openDeleteModal && (
             <Modal
-              modalText="Are you sure you want to delete this item?"
+              headerText="Delete Vehicle"
+              modalText="Are you sure you want to delete this vehicle?"
               rightButtonAction={handleDeleteVehicle}
               leftButtonAction={closeDeleteModal}
               rightButtonText="Yes"
               leftButtonText="No"
               isLoading={isLoading}
             />
+          )}
+          {openEditModal && (
+            <Modal>
+              <NewInventory 
+                closeModal={closeModal} 
+                header="Edit Vehicle" 
+                id={id}
+              />
+            </Modal>
           )}
           <div>{name}</div>
           <div>{year}</div>
@@ -38,11 +57,12 @@ const TableRow = ({id, name, model, color, vin, year, reload}) => {
           <div>{vin}</div>
           <div>
             <i 
-              style={{padding: '0 16px'}} 
+              style={{padding: '0 16px', cursor: 'pointer'}} 
               className="fas fa-pen"
+              onClick={openEdModal}
             />
             <i  
-              style={{padding: '0 16px'}} 
+              style={{padding: '0 16px', cursor: 'pointer'}} 
               className="far fa-trash-alt" 
               onClick={openDelModal}
             />

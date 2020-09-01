@@ -11,11 +11,21 @@ const AllInventory = () => {
 
   const {request, data: vehicles, isLoading, error} = useFetcher('GET');
   const [openModal, setOpenModal] = useState(false);
+  const [query, setQuery]= useState(null);
 
   const handleCreateVehicle = () => {
     setOpenModal(true);
   };
   
+  const handleQueryChange = (e) => {
+    e.preventDefault()
+    if(e.keyCode === 13){
+      request(`http://localhost:9001/vehicles?query=${query}`);
+      return;
+     } 
+    const {value} = e.target;
+    setQuery(value);
+  }
   const reload = useCallback(() => {
     request('http://localhost:9001/vehicles')
   }, [])
@@ -54,7 +64,12 @@ const AllInventory = () => {
     <div style={{height: "120px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
       <div style={{display: "flex", justifyContent: "space-between"}}>
         <S.Search>
-          <input value="Search Inventory"/>
+          <input 
+            placeholder="Search Inventory"
+            value={query}
+            onChange={handleQueryChange}
+            onKeyDown={handleQueryChange}
+          />
         </S.Search>
         <S.Button>
           <input type="button" value="Add Inventory" onClick={handleCreateVehicle}/>

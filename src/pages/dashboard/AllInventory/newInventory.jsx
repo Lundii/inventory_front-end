@@ -4,12 +4,12 @@ import {useFetcher} from '../../../hooks';
 import Input from '../../../components/input';
 import * as S from './styled';
 
-const NewInventory = ({closeModal}) => {
+const NewInventory = ({closeModal, header, id}) => {
 	const { data, request, isLoading, error	} = useFetcher('POST');
+	const { data: editData, request: editRequest, isLoading: editIsLoading } = useFetcher('GET');
 	const [formData, setFormData] = useState({});
 	
 	const handleFormState = (value, field) => {
-		console.log(value);
 		setFormData(prevState => ({...prevState, [`${field}`]: value}));
 	}
   const handleSubmit = () => {
@@ -22,32 +22,46 @@ const NewInventory = ({closeModal}) => {
       closeModal();
     }
   }, [data]);
+
+  useEffect(() => {
+	  if(!editData && id){
+		editRequest(`http://localhost:9001/vehicles/${id}`);
+	  }
+	  if(editData){
+		  setFormData(editData);
+	  }
+  }, [editData])
 	return (
 		<div>
-			<h4>New Vehicle</h4>
+			<h4>{header || "New Vehicle"}</h4>
 			<Input 
 				label="Name" 
 				field="name"
+				initialValue={formData.name}
 				handleChange={handleFormState}
 			/>
 			<Input 
 				label="Model"
 				field="model"
+				initialValue={formData.model}
 				handleChange={handleFormState}
 			/>
 			<Input 
 				label="Year"
 				field="manufacturedate"
+				initialValue={formData.manufacturedate}
 				handleChange={handleFormState}	
 			/>
 			<Input 
 				label="VIN"
 				field="vin"
+				initialValue={formData.vin}
 				handleChange={handleFormState}
 			/>
 			<Input 
 				label="Color"
 				field="color"
+				initialValue={formData.color}
 				handleChange={handleFormState}
 			/>
 			<S.ModalButtons>
