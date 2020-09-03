@@ -9,16 +9,28 @@ import * as S from './styled';
 
 const AllInventory = () => {
 
-  const {request, data: vehicles, isLoading, error} = useFetcher('GET');
+  const {request, data, isLoading, error} = useFetcher('GET');
   const [openModal, setOpenModal] = useState(false);
+  const [paging, setPaging] = useState({
+    currentPage: 1,
+    totalPages: 1
+  });
   const [query, setQuery]= useState(null);
 
   const handleCreateVehicle = () => {
     setOpenModal(true);
   };
   
+  const handlePagination = (e) => {
+    if(isLoading) return;
+    if(e.keyCode === 13){
+      return;
+     } 
+     const {value} = e.target;
+     setPaging(prevState => ({...prevState, currentPage: value}));
+     request(`http://localhost:9001/vehicles?query=${query || ''}&page=${value - 1}`);
+  }
   const handleQueryChange = (e) => {
-    e.preventDefault()
     if(e.keyCode === 13){
       request(`http://localhost:9001/vehicles?query=${query}`);
       return;
@@ -36,7 +48,12 @@ const AllInventory = () => {
   };
   
   const rows = useMemo(() => {
-    return (vehicles || []).map((vehicle) => 
+
+    setPaging({
+      currentPage: (data && data.currentPage + 1) || 1,
+      totalPages: (data && data.totalPages) || 1,
+    })
+    return ((data && data.vehicles) || []).map((vehicle) => 
     <TableRow 
       id={vehicle.id}
       name={vehicle.name} 
@@ -46,13 +63,13 @@ const AllInventory = () => {
       vin={vehicle.vin} 
       reload={reload}
     />);
-  }, [vehicles]);
+  }, [data]);
 
   useEffect(() => {
-    if(!vehicles){
+    if(!data){
       request('http://localhost:9001/vehicles')
     }
-  }, [vehicles])
+  }, [data])
 
  return (
   <S.Wrapper>
@@ -61,8 +78,8 @@ const AllInventory = () => {
       <NewInventory closeModal={closeModal}/>
     </Modal>
   )}
-    <div style={{height: "120px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
-      <div style={{display: "flex", justifyContent: "space-between"}}>
+    <S.TopContainer>
+      <div className="container">
         <S.Search>
           <input 
             placeholder="Search Inventory"
@@ -75,7 +92,19 @@ const AllInventory = () => {
           <input type="button" value="Add Inventory" onClick={handleCreateVehicle}/>
         </S.Button>
       </div>
-    </div>
+      <S.Paging>
+        <h4>Pages</h4>
+        <input 
+          value={paging.currentPage} 
+          onChange={handlePagination} 
+          onKeyDown={handlePagination}
+          type="number"
+          min="1"
+          max={paging.totalPages}
+        />
+        <h4>{`of ${paging.totalPages}`}</h4>
+      </S.Paging>
+    </S.TopContainer>
     <div>
       <S.TableHeader>
         <h4>Name</h4>

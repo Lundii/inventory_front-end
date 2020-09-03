@@ -12,7 +12,7 @@ export const Header = styled.div`
   }
 `
 export const NavWrapper = styled.div`
-  height: 100vh;
+  height: 110vh;
   width: 260px;
   background-color: #3A74CB};
   top: 55px;

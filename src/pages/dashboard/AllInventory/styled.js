@@ -86,3 +86,40 @@ export const LeftButton = styled(RightButton)`
   text-align: left;
   font-weight: bold;
 `;
+
+export const Paging = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 24px 16px 0 0;
+
+  input {
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid black;
+    padding: 0 8px;
+    width: 24px;
+    text-align: center;
+  }
+
+  h4 {
+    margin: 0;
+  }
+`
+
+export const Error = styled.p`
+  font-size: 12px;
+  text-align: center;
+  color: red;
+`
+
+export const TopContainer = styled.div`
+  height: 120px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+
+  .container{
+    display: flex; 
+    justify-content: space-between;
+  }
+`
