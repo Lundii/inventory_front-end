@@ -1,23 +1,30 @@
 import React from 'react';
-import Header from './header';
-import NavigationLinks from './navigationlinks';
-import AllInventory from './AllInventory';
+import { BrowserRouter as Router, Route, Switch, withRouter} from 'react-router-dom';
+import Header from './Header';
+import NavigationLinks from './Navigationlinks';
+import AllInventory from '../AllInventory';
+import SoldVehicles from '../SoldVehicles';
 
 const Dashboard = () => {
   return (
-    <div>
+    <Router>
       <div>
-        <Header />
-      </div>
-      <div style={{display: "flex", flexDirection: "row"}}>
-        <div style={{ width: '260px' }}>
-          <NavigationLinks />
+        <div>
+          <Header />
         </div>
-        <div style={{flex: 1}}>
-          <AllInventory />
+        <div style={{display: "flex", flexDirection: "row"}}>
+          <div style={{ width: '260px' }}>
+            <NavigationLinks />
+          </div>
+          <div style={{flex: 1}}>
+            <Switch>
+              <Route exact path="/" component={AllInventory} />
+              <Route exact path="/soldvehicles" component={SoldVehicles} />
+            </Switch>
+          </div>
         </div>
       </div>
-    </div>
+    </Router>
   )
 }
 

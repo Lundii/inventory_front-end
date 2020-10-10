@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import * as S from './styled';
 
-const Input = ({label, field, initialValue, handleChange}) => {
+const Input = ({label, field, initialValue, handleChange, disabled, type}) => {
 
-  console.log(initialValue);
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (e) => {
@@ -18,6 +17,8 @@ const Input = ({label, field, initialValue, handleChange}) => {
       <S.Label>{`${label}`}:</S.Label>
       <S.Input 
         onChange={handleInputChange}
+        disabled={disabled}
+        type={type}
         value={inputValue || initialValue}
       />
     </S.Wrapper>

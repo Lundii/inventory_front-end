@@ -1,9 +1,8 @@
 import React, {useEffect, useMemo, useState, useCallback} from 'react';
-import Modal from '../../../components/Modal';
-import Loading from '../../../components/loading';
-import NewInventory from './newInventory';
-import TableRow from './tableRow';
-import {useFetcher} from '../../../hooks';
+import {Modal, Loading} from '../../components';
+import NewInventory from './NewInventory';
+import TableRow from './TableRow';
+import {useFetcher} from '../../hooks';
 import * as S from './styled';
 
 
@@ -59,6 +58,7 @@ const AllInventory = () => {
       name={vehicle.name} 
       year={vehicle.manufacturedate} 
       model={vehicle.model} 
+      price={vehicle.price}
       color={vehicle.color }
       vin={vehicle.vin} 
       reload={reload}
@@ -75,7 +75,7 @@ const AllInventory = () => {
   <S.Wrapper>
   {openModal && (
     <Modal>
-      <NewInventory closeModal={closeModal}/>
+      <NewInventory header="New Vehicle" closeModal={closeModal}/>
     </Modal>
   )}
     <S.TopContainer>
@@ -110,6 +110,7 @@ const AllInventory = () => {
         <h4>Name</h4>
         <h4>Year</h4>
         <h4>Model</h4>
+        <h4>Price</h4>
         <h4>Color</h4>
         <h4>VIN</h4>
         <h4></h4>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Header = styled.div`
   height: 55px;
@@ -16,12 +17,16 @@ export const NavWrapper = styled.div`
   width: 260px;
   background-color: #3A74CB};
   top: 55px;
+  display: flex;
+  flex-direction: column;
 `;
 
-export const NavLink = styled.div`
+export const NavLink = styled(Link)`
   padding: 16px;
   cursor: pointer;
-  color: white;
+  color: ${({selected}) => selected ? '#3A74CB;' : 'white'};
+  background-color: ${({selected}) => selected ? 'white;' : '#3A74CB'};
+  text-decoration: none;
   :hover{
     background-color: white;
     color: #3A74CB;

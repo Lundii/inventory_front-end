@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
 `
 export const TableHeader = styled.div`
 display: grid;
-grid-template-columns: 25% 15% 15% 15% 15% 15%;
+grid-template-columns: 2.0fr 1.5fr 1.5fr  1.5fr 1.5fr 1.5fr 1.5fr;
 justify-items: center;
 color: white;
 background-color: #3A74CB;
@@ -22,7 +22,7 @@ export const RowWrapper = styled.div`
 
 export const TableRow = styled.div`
 display: grid;
-grid-template-columns: 25% 15% 15% 15% 15% 15%;
+grid-template-columns: 2.0fr 1.5fr 1.5fr  1.5fr 1.5fr 1.5fr 1.5fr;
 justify-items: center;
 padding: 16px;
 background-color: #ECECEC;

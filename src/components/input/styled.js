@@ -17,4 +17,9 @@ export const Input = styled.input`
   border: 1px solid rgba(0,0,0,0.25);
   border-radius: 8px;
   flex: 1;
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 `
